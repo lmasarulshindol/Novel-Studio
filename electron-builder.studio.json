@@ -1,0 +1,35 @@
+{
+  "appId": "com.novelstudio.app",
+  "productName": "ノベルスタジオ",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "package.json",
+    "!node_modules/**"
+  ],
+  "asar": true,
+  "npmRebuild": false,
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "signAndEditExecutable": false
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "include": "build/installer.nsh",
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "ノベルスタジオ",
+    "artifactName": "NovelStudio-Setup.${ext}",
+    "unicode": true
+  }
+}

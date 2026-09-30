@@ -1,0 +1,131 @@
+// ノベルスタジオのチュートリアル
+// 1行が1命令。// 以降はゲームに出ない説明。
+// 演出は with のあとに名前。秒数は duration。強さは amount。
+# start
+bg classroom day with fade duration=0.8
+play bgm day loop fade=1.2
+show mitsuki smile at center with fadeIn duration=0.5
+「美月」 チュートリアルを始めるね。台本は1行が1命令だよ。
+「美月」 演出は with のあとに書く。duration=0.8 は0.8秒、という意味。
+「美月」 編集画面の「演出の説明」を開くと、使える演出が全部、書き方つきで並んでいるよ。
+jump menu
+
+# menu
+「美月」 見たいところを選んで。
+choice
+  「登場と退場」 -> enter
+  「背景の切り替え」 -> backgrounds
+  「カメラ」 -> cameras
+  「色・光・ゆがみ」 -> look
+  「粒子・文字・音」 -> extras
+  「ここで終わる」 -> ending
+
+# enter
+// show は登場、hide は退場、fx は今いる人物への演出。
+hide mitsuki with fadeOut duration=0.35
+「美月」 退場は hide mitsuki with fadeOut。透明になって消えるよ。
+show mitsuki smile at left with slideIn direction=left duration=0.55
+「美月」 スライドインは画面の外から滑ってくる。direction は left right up down。
+hide mitsuki with slideOut direction=right duration=0.45
+show mitsuki smile at center with bounceIn duration=0.7
+「美月」 バウンド登場は、上から落ちて弾むよ。
+fx mitsuki spin degree=360 duration=0.8
+「美月」 回転は fx mitsuki spin。degree で何度使回すか決める。
+fx mitsuki jump duration=0.7
+「美月」 ジャンプはしゃがんで飛んで、着地で少し潰れる。
+fx mitsuki punch duration=0.35
+「美月」 パンチは一瞬だけ大きく弾む。驚きのときに向いてる。
+fx mitsuki shake amount=12 duration=0.4
+「美月」 人物の振動は fx mitsuki shake。画面ごと揺らすのは、このあとカメラの章だよ。
+jump menu
+
+# backgrounds
+// bg の with が切り替え方。fade と書くと背景ではクロスフェードになる。
+bg classroom dusk with wipe direction=left duration=0.75
+「美月」 ワイプは端から拭うように次の背景になる。direction=left は左から。
+bg classroom night with iris duration=0.75
+「美月」 アイリスは、円が開いて次の絵が見えるよ。
+bg classroom day with clockWipe duration=0.85
+「美月」 時計ワイプは、針が進むみたいに絵が替わる。
+bg classroom dusk with barnDoor duration=0.7
+「美月」 バーンドアは、中央から左右へ開く切り替え。
+bg classroom night with dissolve duration=0.7
+「美月」 ディゾルブは、まだらに溶けて次の絵になる。
+bg classroom day with dipBlack duration=0.85
+「美月」 暗転は、一度黒くしてから次の背景。color で黒以外にもできるよ。
+bg classroom dusk with fadeThroughColor color=#1a120c duration=0.9
+「美月」 色を挟むのも同じ流れ。color=#1a120c みたいに色を指定する。
+fx screen flash duration=0.28
+「美月」 フラッシュは fx screen flash。画面が一瞬白く光る。色も color で変えられる。
+bg classroom day with fade duration=0.7
+「美月」 with fade は、背景だとクロスフェード。登場だとフェードイン、退場だとフェードアウトになるよ。
+jump menu
+
+# cameras
+camera camPan x=80 duration=0.6
+「美月」 カメラ移動は camera camPan x=80。画面が横にずれる。
+camera camPan x=0 y=0 duration=0.45
+camera camZoom zoom=1.18 duration=0.55
+「美月」 ズームは camera camZoom zoom=1.18。zoom=1 で元の大きさに戻るよ。
+camera camZoom zoom=1 duration=0.4
+camera letterbox amount=80 duration=0.4
+「美月」 レターボックスは上下の黒い帯。amount が高さで、0 にすると消える。
+camera letterbox amount=0 duration=0.35
+play se shake + camera shake amount=14 duration=0.45
+「美月」 画面全体の揺れは camera shake amount=14。効果音と並べて同時に実行できるよ。
+camera kenBurns duration=2.2
+「美月」 ケンバーンズは、ゆっくり寄りながら流れる。写真みたいな背景向けだよ。
+camera camZoom zoom=1 duration=0.4
+camera camPan x=0 y=0 duration=0.3
+jump menu
+
+# look
+// 色やぼかしは残る。見終わったら amount=1 や amount=0 で戻す。
+fx screen brightness amount=1.4 duration=0.45
+「美月」 明度は fx screen brightness amount=1.4。1 が元の明るさ。
+fx screen brightness amount=1 duration=0.3
+fx screen sepia duration=0.45
+「美月」 セピアは古写真の茶色。彩度を戻せば色が戻るよ。
+fx screen saturate amount=1 duration=0.35
+fx screen blur amount=8 duration=0.4
+「美月」 ぼかしは fx screen blur amount=8。amount=0 でピントが戻る。
+fx screen blur amount=0 duration=0.3
+fx mitsuki glow amount=3 duration=0.4
+「美月」 グローは輪郭が光る。対象を mitsuki にすると、わたしだけ光るよ。
+fx screen vignette amount=0.7 duration=0.4
+「美月」 ビネットは四隅を暗くする。amount で強さ。
+fx screen glitch amount=1 duration=0.35
+「美月」 グリッチは映像が崩れる。ゆがみ系はほかに波、波紋、膨らみ、ピクセルがあるよ。
+fx screen pixelate amount=12 duration=0.4
+「美月」 ピクセルはドットを粗くする。amount が大きいほど粗い。
+fx screen pixelate amount=1 duration=0.25
+fx screen saturate amount=1 duration=0.25
+fx mitsuki glow amount=0 duration=0.2
+fx screen vignette amount=0 duration=0.25
+「美月」 色もぼかしも、かけたあとは残る。戻す命令を書いておくと安心だよ。
+jump menu
+
+# extras
+particle rain duration=2.2
+「美月」 雨は particle rain。雪、花びら、光、火の粉も同じ書き方。
+particle stop
+particle petals duration=2.2
+「美月」 止めるときは particle stop。今のは花びら。
+particle stop
+「美月」 この行は、文字がふわっと出るよ。 with textFade
+「美月」 この行は、文字枠が揺れるよ。 with textShake
+play se appear
+「美月」 効果音は play se appear。BGM は play bgm day loop fade=1.2。fade は曲の入りの秒数。
+fx screen customShader fragment=sample/shaders/pulse.frag uAmount=0.7 duration=0.7
+「美月」 シェーダは fx screen customShader。fragment に .frag のパス、uAmount で強さだよ。
+「美月」 編集画面の説明には、移動やパンチ、色相、ブレンドみたいな残りも全部書いてある。
+jump menu
+
+# ending
+hide mitsuki with fadeOut duration=0.5
+particle stop
+camera letterbox amount=0 duration=0.3
+camera camZoom zoom=1 duration=0.3
+bg classroom night with fadeThroughColor duration=0.9
+play bgm night loop fade=1.6
+「美月」 ばいばい。台本に with と duration を足していけば、同じことができるよ。

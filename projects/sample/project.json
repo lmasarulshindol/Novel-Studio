@@ -1,0 +1,43 @@
+{
+  "name": "見本：放課後の演出",
+  "width": 1920,
+  "height": 1080,
+  "scriptFile": "script.txt",
+  "title": {
+    "background": "classroom",
+    "backgroundVariant": "dusk",
+    "logo": "logo",
+    "bgm": "dusk"
+  },
+  "assets": {
+    "backgrounds": [
+      { "id": "classroom", "variant": "day", "src": "sample/backgrounds/classroom_day.png" },
+      { "id": "classroom", "variant": "dusk", "src": "sample/backgrounds/classroom_dusk.png" },
+      { "id": "classroom", "variant": "night", "src": "sample/backgrounds/classroom_night.png" }
+    ],
+    "characters": [
+      {
+        "id": "mitsuki",
+        "name": "美月",
+        "expressions": [
+          { "id": "smile", "src": "sample/chars/mitsuki_smile.png" },
+          { "id": "shy", "src": "sample/chars/mitsuki_shy.png" }
+        ]
+      }
+    ],
+    "bgm": [
+      { "id": "day", "src": "sample/audio/day.wav" },
+      { "id": "dusk", "src": "sample/audio/dusk.wav" },
+      { "id": "night", "src": "sample/audio/night.wav" }
+    ],
+    "se": [
+      { "id": "click", "src": "sample/audio/click.wav" },
+      { "id": "appear", "src": "sample/audio/appear.wav" },
+      { "id": "shake", "src": "sample/audio/shake.wav" }
+    ],
+    "voice": [],
+    "cgs": [{ "id": "sunset", "src": "sample/backgrounds/classroom_dusk.png" }],
+    "ui": [{ "id": "logo", "src": "sample/ui/logo.png" }],
+    "shaders": [{ "id": "pulse", "src": "sample/shaders/pulse.frag" }]
+  }
+}

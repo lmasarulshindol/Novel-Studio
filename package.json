@@ -1,0 +1,36 @@
+{
+  "name": "novel-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ノベルゲームを作って、プレビューし、Windowsインストーラにする",
+  "author": "Novel Studio",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite --port 5173 --strictPort",
+    "electron": "tsc -p tsconfig.electron.json && electron .",
+    "app": "concurrently -k \"vite --port 5173 --strictPort\" \"wait-on http://localhost:5173 && tsc -p tsconfig.electron.json && electron .\"",
+    "test": "vitest run",
+    "build": "vite build && tsc -p tsconfig.electron.json",
+    "dist": "npm run build && electron-builder --win nsis --x64 --config electron-builder.studio.json",
+    "export:game": "node scripts/export-installer.mjs"
+  },
+  "dependencies": {
+    "pixi-filters": "^6.1.0",
+    "pixi.js": "^8.9.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.4",
+    "vitest": "^3.1.2",
+    "wait-on": "^8.0.3"
+  }
+}
