@@ -9,7 +9,7 @@ import {
 } from './types';
 
 const COMMAND_NAMES = new Set([
-  'bg', 'show', 'hide', 'expr', 'cg', 'fx', 'camera', 'transition', 'particle',
+  'bg', 'show', 'hide', 'place', 'expr', 'cg', 'fx', 'camera', 'transition', 'particle',
   'play', 'stop', 'wait', 'choice', 'jump', 'set', 'if', 'narration',
 ]);
 
@@ -133,6 +133,10 @@ function parsePiece(
     };
   }
   if (name === 'hide') return { ...base, type: 'hide', character: head[1] ?? '', effect };
+  if (name === 'place') {
+    const atIndex = head.indexOf('at');
+    return { ...base, type: 'place', character: head[1] ?? '', at: atIndex >= 0 ? head[atIndex + 1] ?? 'center' : 'center' };
+  }
   if (name === 'expr') return { ...base, type: 'expr', character: head[1] ?? '', expr: head[2] ?? 'default', effect };
   if (name === 'cg') return { ...base, type: 'cg', id: head[1] ?? 'off', effect };
   if (name === 'fx') {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { containSize, coverScale } from '../src/runtime/fit';
+import { clientToStage, containSize, coverScale } from '../src/runtime/fit';
 
 describe('画面への収め方', () => {
   it('ウィンドウが横長でも舞台は16:9のまま', () => {
@@ -18,6 +18,12 @@ describe('画面への収め方', () => {
     const scale = coverScale(1000, 1000, 1920, 1080);
     expect(1000 * scale).toBeCloseTo(1920);
     expect(1000 * scale).toBeGreaterThan(1080);
+  });
+
+  it('キャンバス上の点を舞台座標に戻す', () => {
+    const point = clientToStage({ left: 10, top: 20, width: 320, height: 180 }, 10 + 160, 20 + 90, 1920, 1080);
+    expect(point).toEqual({ x: 960, y: 540 });
+    expect(clientToStage({ left: 0, top: 0, width: 100, height: 100 }, 120, 10, 1920, 1080)).toBeNull();
   });
 
   it('横長の絵は左右を隠して高さに合わせる', () => {

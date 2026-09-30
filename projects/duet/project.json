@@ -1,0 +1,52 @@
+{
+  "name": "二人の放課後",
+  "width": 1920,
+  "height": 1080,
+  "scriptFile": "script.txt",
+  "title": {
+    "background": "classroom",
+    "backgroundVariant": "dusk",
+    "logo": "logo",
+    "bgm": "dusk"
+  },
+  "assets": {
+    "backgrounds": [
+      { "id": "classroom", "variant": "day", "src": "sample/backgrounds/classroom_day.png" },
+      { "id": "classroom", "variant": "dusk", "src": "sample/backgrounds/classroom_dusk.png" },
+      { "id": "classroom", "variant": "night", "src": "sample/backgrounds/classroom_night.png" }
+    ],
+    "characters": [
+      {
+        "id": "mitsuki",
+        "name": "美月",
+        "expressions": [
+          { "id": "smile", "src": "sample/chars/mitsuki_smile.png" },
+          { "id": "shy", "src": "sample/chars/mitsuki_shy.png" }
+        ]
+      },
+      {
+        "id": "koharu",
+        "name": "小春",
+        "expressions": [
+          { "id": "smile", "src": "duet/chars/koharu_smile.png" },
+          { "id": "tease", "src": "duet/chars/koharu_tease.png" },
+          { "id": "soft", "src": "duet/chars/koharu_soft.png" }
+        ]
+      }
+    ],
+    "bgm": [
+      { "id": "day", "src": "sample/audio/day.wav" },
+      { "id": "dusk", "src": "sample/audio/dusk.wav" },
+      { "id": "night", "src": "sample/audio/night.wav" }
+    ],
+    "se": [
+      { "id": "click", "src": "sample/audio/click.wav" },
+      { "id": "appear", "src": "sample/audio/appear.wav" },
+      { "id": "shake", "src": "sample/audio/shake.wav" }
+    ],
+    "voice": [],
+    "cgs": [],
+    "ui": [{ "id": "logo", "src": "sample/ui/logo.png" }],
+    "shaders": []
+  }
+}

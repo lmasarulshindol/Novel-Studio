@@ -20,6 +20,7 @@ export type Command =
   | (CommandBase & { type: 'label'; name: string })
   | (CommandBase & { type: 'bg'; id: string; variant?: string; effect?: EffectSpec })
   | (CommandBase & { type: 'show'; character: string; expr: string; at: string; effect?: EffectSpec })
+  | (CommandBase & { type: 'place'; character: string; at: string })
   | (CommandBase & { type: 'hide'; character: string; effect?: EffectSpec })
   | (CommandBase & { type: 'expr'; character: string; expr: string; effect?: EffectSpec })
   | (CommandBase & { type: 'cg'; id: string; effect?: EffectSpec })

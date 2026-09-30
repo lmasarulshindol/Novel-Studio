@@ -1,6 +1,8 @@
 import { planEffect, defaultContext } from '../core/effects/plan';
+import { commandAllowed, commandsForEditPage, scenarioPages, visiblePageText, type ScenarioPage } from '../core/scenario/pages';
 import { parseScenario } from '../core/scenario/parser';
 import { ScriptRunner, type Halt } from '../core/scenario/runner';
+import type { Program } from '../core/scenario/types';
 import type { Project } from '../core/project/project';
 import type { SaveSlot } from '../core/save/save';
 import { normalizeSettings, type GameSettings } from '../core/settings';
@@ -56,6 +58,9 @@ export class PlaybackController {
   private waitTimer = 0;
   private pumping = false;
   private alive = true;
+  private program?: Program;
+  private scriptPages: ScenarioPage[] = [];
+  private presentGen = 0;
 
   constructor(private readonly host: HTMLElement, private readonly project: Project, settings: GameSettings) {
     this.settings = normalizeSettings(settings);
@@ -89,11 +94,49 @@ export class PlaybackController {
     if (on && this.view.phase === 'dialogue') this.advance();
   }
 
+  async presentPage(script: string, pageIndex: number): Promise<void> {
+    const gen = ++this.presentGen;
+    await this.openStage();
+    if (!this.alive || !this.stage || gen !== this.presentGen) return;
+    const pages = scenarioPages(script);
+    if (!pages.length) return;
+    const index = Math.max(0, Math.min(pageIndex, pages.length - 1));
+    const page = pages[index];
+    const shown = visiblePageText(pages, index);
+    this.stage.clear();
+    await this.stage.playSequence(commandsForEditPage(script, index));
+    if (!this.alive || gen !== this.presentGen) return;
+    this.stage.setSpeaker(shown.speaker);
+    this.view.phase = 'dialogue';
+    this.view.speaker = shown.speaker;
+    this.view.fullText = shown.text;
+    this.view.typed = shown.text;
+    this.view.line = page.endLine;
+    this.view.choices = [];
+    this.view.error = '';
+    this.emit();
+  }
+
+  hitCharacter(x: number, y: number): string | null {
+    return this.stage?.hitCharacter(x, y) ?? null;
+  }
+
+  characterOrigin(id: string): { x: number; y: number } | null {
+    return this.stage?.characterOrigin(id) ?? null;
+  }
+
+  moveCharacter(id: string, x: number, y: number): void {
+    this.stage?.moveCharacter(id, x, y);
+  }
+
   async start(boot: 'new' | SaveSlot): Promise<void> {
     const program = parseScenario(this.project.script);
+    this.program = program;
+    this.scriptPages = scenarioPages(this.project.script);
     if (program.errors.length) {
       this.view.error = program.errors.map((error) => `${error.line}行: ${error.message}`).join(' / ');
     }
+    this.stage?.destroy();
     this.stage = new NovelStage(this.host, this.project);
     this.stage.onTextFx = (mode) => {
       this.view.shake = mode === 'textShake';
@@ -184,6 +227,25 @@ export class PlaybackController {
     this.stage?.destroy();
   }
 
+  private async openStage(): Promise<void> {
+    if (this.stage || !this.alive) return;
+    this.stage = new NovelStage(this.host, this.project);
+    await this.stage.init();
+    if (!this.alive) return;
+    this.stage.setVolumes({
+      bgm: this.settings.bgm,
+      se: this.settings.se,
+      voice: this.settings.voice,
+      system: this.settings.system,
+    });
+  }
+
+  private pageOf(command: Program['commands'][number]): ScenarioPage | undefined {
+    const index = this.program?.commands.indexOf(command) ?? -1;
+    if (index < 0) return undefined;
+    return this.scriptPages.find((page) => page.commandIndexes.includes(index));
+  }
+
   private async pump(): Promise<void> {
     if (!this.runner || !this.stage || this.pumping) return;
     this.pumping = true;
@@ -192,13 +254,17 @@ export class PlaybackController {
         if (!this.alive || !this.runner || !this.stage) return;
         const step = this.runner.next();
         if (step.type === 'batch') {
+          const commands = step.commands.filter((command) => commandAllowed(this.pageOf(command), command));
+          if (!commands.length) continue;
           this.view.phase = 'busy';
-          this.view.line = step.line;
+          this.view.line = commands[0].line;
           this.emit();
-          await this.stage.playBatch(step.commands);
+          await this.stage.playBatch(commands);
           continue;
         }
         if (step.type === 'dialogue') {
+          const page = this.scriptPages.find((item) => item.commandIndexes.includes(step.index));
+          if (page?.explicit && !page.layers.text) continue;
           this.showDialogue(step);
           return;
         }

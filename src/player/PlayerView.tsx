@@ -9,6 +9,8 @@ import { readSlot, writeSlot, type SaveFile, type SaveSlot } from '../core/save/
 import { type GameSettings } from '../core/settings';
 import { loadUnlocks, rememberUnlock, type Unlocks } from '../core/unlocks';
 import { playSystemCue } from '../runtime/audio';
+import { getTextFrame } from '../core/project/text-frame';
+import { MessageBox } from './MessageBox';
 import { PlaybackController, type PlayView } from './PlaybackController';
 
 type Boot = 'new' | SaveSlot;
@@ -302,7 +304,7 @@ function GameScreen({
   };
 
   return (
-    <section className="game-screen" onContextMenu={(event) => { event.preventDefault(); setHidden((value) => !value); }}>
+    <section className={`game-screen frame-layout-${getTextFrame(project.textFrame).layout}`} onContextMenu={(event) => { event.preventDefault(); setHidden((value) => !value); }}>
       <div className="stage-host" ref={setHost} onClick={() => overlay === 'none' && ctrlRef.current?.advance()} />
       {!hidden && view && (
         <div className="hud">
@@ -324,14 +326,15 @@ function GameScreen({
               ))}
             </div>
           ) : (
-            <div
-              className={`message ${view.shake ? 'shake' : ''} ${view.fade ? 'fade-in' : ''}`}
-              style={{ background: `rgba(18, 12, 8, ${settings.windowOpacity})` }}
+            <MessageBox
+              frame={project.textFrame}
+              speaker={view.speaker}
+              text={view.typed}
+              opacity={settings.windowOpacity}
+              shake={view.shake}
+              fade={view.fade}
               onClick={() => ctrlRef.current?.advance()}
-            >
-              {view.speaker ? <p className="speaker">{view.speaker}</p> : null}
-              <p className="body">{view.typed}</p>
-            </div>
+            />
           )}
         </div>
       )}

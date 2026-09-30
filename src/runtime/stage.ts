@@ -303,6 +303,44 @@ export class NovelStage {
     }));
   }
 
+  hitCharacter(x: number, y: number): string | null {
+    const ids = [...this.characters.keys()].reverse();
+    for (const id of ids) {
+      const visual = this.characters.get(id);
+      const sprite = visual?.sprite;
+      if (!visual || !sprite) continue;
+      const width = Math.abs(sprite.width);
+      const height = Math.abs(sprite.height);
+      const left = visual.view.x - width * sprite.anchor.x;
+      const top = visual.view.y - height * sprite.anchor.y;
+      if (x >= left && x <= left + width && y >= top && y <= top + height) return id;
+    }
+    return null;
+  }
+
+  characterOrigin(id: string): { x: number; y: number } | null {
+    const visual = this.characters.get(id);
+    if (!visual) return null;
+    return { x: visual.view.x, y: visual.view.y };
+  }
+
+  moveCharacter(id: string, x: number, y: number): void {
+    const visual = this.characters.get(id);
+    if (!visual) return;
+    const nextX = Math.round(Math.max(-this.width * 0.25, Math.min(this.width * 1.25, x)));
+    const nextY = Math.round(Math.max(this.height * 0.35, Math.min(this.height * 1.02, y)));
+    visual.view.position.set(nextX, nextY);
+    visual.restX = nextX;
+    visual.restY = nextY;
+  }
+
+  async playSequence(commands: Command[]): Promise<void> {
+    for (const command of commands) {
+      if (this.destroyed) return;
+      await this.playBatch([command]);
+    }
+  }
+
   snapshot(): StageSnapshot {
     return {
       background: this.background ? this.snap(this.background) : undefined,
@@ -357,6 +395,7 @@ export class NovelStage {
   private async playCommand(command: Command): Promise<void> {
     if (command.type === 'bg') return this.changeBackground(command.id, command.variant, command.effect);
     if (command.type === 'show') return this.showCharacter(command.character, command.expr, command.at, command.effect);
+    if (command.type === 'place') return this.placeCharacter(command.character, command.at);
     if (command.type === 'hide') return this.hideCharacter(command.character, command.effect);
     if (command.type === 'expr') return this.swapExpr(command.character, command.expr, command.effect);
     if (command.type === 'cg') return this.showCg(command.id, command.effect);
@@ -400,6 +439,11 @@ export class NovelStage {
     const created = this.putBackground(texture, id, variant, false);
     await this.animate(created, plan);
     if (previous && previous !== created) this.destroyVisual(previous);
+  }
+
+  private placeCharacter(id: string, at: string): void {
+    const pos = this.slot(at);
+    this.moveCharacter(id, pos.x, pos.y);
   }
 
   private async showCharacter(id: string, expr: string, at: string, effect?: EffectSpec): Promise<void> {

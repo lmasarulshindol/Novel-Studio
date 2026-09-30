@@ -87,4 +87,14 @@ describe('シナリオパーサ', () => {
     expect(program.labels.extras).toBeTypeOf('number');
     expect(program.labels.ending).toBeTypeOf('number');
   });
+
+  it('二人の掛け合いがパースできる', () => {
+    const script = fs.readFileSync('projects/duet/script.txt', 'utf8');
+    const program = parseScenario(script);
+    expect(program.errors).toEqual([]);
+    const speakers = program.commands.filter((command) => command.type === 'dialogue').map((command) => command.speaker);
+    expect(speakers).toContain('美月');
+    expect(speakers).toContain('小春');
+    expect(program.commands.some((command) => command.type === 'show' && command.character === 'koharu')).toBe(true);
+  });
 });

@@ -1,0 +1,110 @@
+// 二人の放課後。クリックして読むと3分ほどの掛け合い。
+# start
+bg classroom day with fade duration=0.8
+play bgm day loop fade=1.2
+show mitsuki smile at left with fadeIn duration=0.6
+「美月」 風、あったかい。
+「美月」 小春、まだかな。
+play se appear
+show koharu smile at right with slideIn direction=right duration=0.55
+「小春」 美月。待たせた？
+expr mitsuki shy with crossfade duration=0.3
+「美月」 ううん。今、来たところ。
+expr koharu tease with crossfade duration=0.25
+「小春」 嘘。影がもう長いよ。
+「美月」 ばれた。
+「小春」 ノートを職員室に忘れて、取りに戻ってたの。
+expr mitsuki smile with crossfade duration=0.25
+「美月」 また？ 昨日は上履きだった。
+expr koharu smile with crossfade duration=0.25
+「小春」 昨日は上履き、今日はノート。進歩でしょ。
+「美月」 進歩の向きが心配。
+「小春」 ひどい。迎えに来てくれた人に、それを言う？
+「美月」 迎えじゃない。通りがかり。
+expr koharu tease with crossfade duration=0.25
+「小春」 この中庭、帰り道にないよ。
+expr mitsuki shy with crossfade duration=0.3
+「美月」 知ってる。
+「小春」 待っててくれたんだ。
+「美月」 少しだけ。
+expr koharu tease with crossfade duration=0.25
+「小春」 少しの顔じゃない。ほっとしてる。
+「美月」 してない。
+「小春」 してる。眉が下がってる。
+expr mitsuki smile with crossfade duration=0.3
+「美月」 小春はよく見るね。自分の荷物は忘れるのに。
+「小春」 人の顔は忘れない。ノートは忘れる。
+「美月」 優先順位が面白い。
+「小春」 ほら、中を見て。分からないところに矢印をつけた。
+expr mitsuki smile with crossfade duration=0.25
+「美月」 私のページにまで書いてある。
+expr koharu tease with crossfade duration=0.25
+「小春」 あとで怒らないで。手伝っただけ。
+「美月」 怒らない。字が読みやすい。
+expr koharu soft with crossfade duration=0.35
+「小春」 美月にそう言われると、ちょっと照れる。
+「美月」 照れてる場合？ 提出は明日だよ。
+「小春」 だから今日中に清書する。家の近くまで、一緒に帰ろ。
+expr mitsuki shy with crossfade duration=0.3
+「美月」 うち、狭いよ。
+「小春」 机は借りる。お茶は自分で入れる。
+「美月」 いいよ。
+「小春」 数学のところ、矢印だけじゃ足りなかったかも。
+「美月」 式は合ってた。答えの桁が一つずれてる。
+expr koharu tease with crossfade duration=0.25
+「小春」 そこか。美月が見てないと、私、ゼロを一個なくす。
+「美月」 一個じゃなかった。
+「小春」 細かい。でも、それで合ってるって言ってくれるの、嬉しい。
+expr mitsuki shy with crossfade duration=0.3
+「美月」 合ってないところを、合ってるとは言ってない。
+expr koharu soft with crossfade duration=0.3
+「小春」 そこが美月。だから隣がいい。
+bg classroom dusk with fade duration=1.0
+play bgm dusk loop fade=1.4
+expr koharu smile with crossfade duration=0.25
+「小春」 空がオレンジになった。
+「美月」 急がないと、門が閉まる。
+「小春」 走ろ。ノートさえあれば、私は速い。
+「美月」 昨日もそう言って、上履きを探してた。
+expr koharu tease with crossfade duration=0.25
+「小春」 今日は両方持ってる。見て、この両手。
+expr mitsuki smile with crossfade duration=0.25
+「美月」 じゃあ、落とさないで。
+「小春」 落とす前に、美月が持ってて。
+「美月」 それは進歩じゃない。
+「小春」 分担。私が見張りで、美月が荷物。
+「美月」 見張りは要らない。まっすぐ帰ろ。
+expr koharu soft with crossfade duration=0.3
+「小春」 了解。まっすぐ、美月の横を。
+expr mitsuki shy with crossfade duration=0.35
+「美月」 横は、少し空けて。
+「小春」 このくらい？
+「美月」 そのくらい。
+「小春」 また明日も、ここで待つ？
+「美月」 待つ。でもノートは、先に持って出てきて。
+expr koharu smile with crossfade duration=0.25
+「小春」 約束。忘れたら、美月に眉を下げてもらう。
+「美月」 それは罰にならない。
+expr koharu soft with crossfade duration=0.3
+「小春」 なるよ。それ見たらいい子にする。
+expr mitsuki smile with crossfade duration=0.3
+「美月」 じゃあ、明日も来て。
+「小春」 行く。美月がいるなら、職員室より先にここ。
+「美月」 空を見てると、足が遅くなる。
+「小春」 美月が遅くなるのは、珍しい。
+expr mitsuki shy with crossfade duration=0.3
+「美月」 小春が隣にいると、時計を見忘れる。
+「小春」 それ、私の忘れ物のせい？
+「美月」 違う。ただ、話してると短い。
+「小春」 門の前で一回、ノートがあるか見て。
+「美月」 今、持ってる。
+expr koharu tease with crossfade duration=0.25
+「小春」 今はね。私の手は、油断すると空になる。
+expr mitsuki smile with crossfade duration=0.25
+「美月」 待ちくたびれないようにね。
+「小春」 くたびれさせない。今日は、このまま門まで。
+hide koharu with slideOut direction=right duration=0.45
+hide mitsuki with fadeOut duration=0.55
+bg classroom night with fadeThroughColor duration=0.9
+play bgm night loop fade=1.2
+> 二人の影が、門の方へ並んでいった。

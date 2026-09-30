@@ -1,3 +1,5 @@
+import { normalizeTextFrame, type TextFrameId } from './text-frame';
+
 export type MediaAsset = {
   id: string;
   src: string;
@@ -20,6 +22,7 @@ export type Project = {
   width: number;
   height: number;
   script: string;
+  textFrame: TextFrameId;
   title: {
     background: string;
     backgroundVariant?: string;
@@ -67,6 +70,7 @@ export function normalizeProject(raw: unknown): Project {
     width: source.width || 1920,
     height: source.height || 1080,
     script: source.script || '',
+    textFrame: normalizeTextFrame(source.textFrame),
     title: {
       background: source.title?.background || '',
       backgroundVariant: source.title?.backgroundVariant,

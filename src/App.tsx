@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditorView } from './editor/EditorView';
 import { createEmptyProject, loadProjectUrl, normalizeProject, type Project } from './core/project/project';
 import { PlayerView } from './player/PlayerView';
@@ -16,6 +16,8 @@ export function App() {
   const [error, setError] = useState('');
   const [exporting, setExporting] = useState(false);
   const [notice, setNotice] = useState('');
+  const [savedScript, setSavedScript] = useState<string | null>(null);
+  const workMenuRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     const playerQuery = new URLSearchParams(window.location.search).get('player') === '1';
@@ -41,7 +43,9 @@ export function App() {
           setError('プレビューする作品がありません');
           return;
         }
-        setProject(await loadProjectUrl('/sample/project.json'));
+        const loaded = await loadProjectUrl('/sample/project.json');
+        setProject(loaded);
+        setSavedScript(loaded.script);
       } catch (reason: unknown) {
         setError(reason instanceof Error ? reason.message : String(reason));
       }
@@ -59,17 +63,29 @@ export function App() {
     void storeSaves(next);
   };
 
+  const dirty = Boolean(project && savedScript !== null && project.script !== savedScript);
+  const confirmDiscard = () => !dirty || window.confirm('保存していない台本の変更があります。破棄して開きますか？');
+  const adopt = (next: Project, directory: string | null) => {
+    if (!confirmDiscard()) return;
+    setProject(next);
+    setDir(directory);
+    setSavedScript(next.script);
+  };
+
   const openFile = async (file: File) => {
     const raw = JSON.parse(await file.text()) as unknown;
-    setProject(normalizeProject(raw));
-    setDir(null);
+    adopt(normalizeProject(raw), null);
+  };
+
+  const openBundled = (url: string) => {
+    if (workMenuRef.current) workMenuRef.current.open = false;
+    void loadProjectUrl(url).then((next) => adopt(next, null));
   };
 
   const openNative = async () => {
     const opened = await window.novelStudio?.openProject();
     if (!opened) return;
-    setProject(normalizeProject(opened.project));
-    setDir(opened.dir);
+    adopt(normalizeProject(opened.project), opened.dir);
   };
 
   const save = async () => {
@@ -77,14 +93,16 @@ export function App() {
     if (window.novelStudio) {
       const savedDir = await window.novelStudio.saveProject(dir, project);
       if (savedDir) setDir(savedDir);
-      return savedDir;
+    } else {
+      const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'project.json';
+      link.click();
     }
-    const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'project.json';
-    link.click();
-    return null;
+    setSavedScript(project.script);
+    setNotice('保存しました');
+    return dir;
   };
 
   const previewWindow = async () => {
@@ -131,14 +149,21 @@ export function App() {
       {mode === 'edit' ? (
         <>
           <div className="filebar">
-            <button type="button" onClick={() => { setProject(createEmptyProject()); setDir(null); }}>新規</button>
-            <button type="button" onClick={() => void loadProjectUrl('/sample/project.json').then((next) => { setProject(next); setDir(null); })}>見本を開く</button>
+            <button type="button" onClick={() => adopt(createEmptyProject(), null)}>新規</button>
+            <details className="menu" ref={workMenuRef}>
+              <summary>作品を開く</summary>
+              <div className="menu-panel">
+                <button type="button" onClick={() => openBundled('/sample/project.json')}>見本：放課後の演出</button>
+                <button type="button" onClick={() => openBundled('/duet/project.json')}>二人の放課後</button>
+              </div>
+            </details>
             <button type="button" onClick={() => void openNative()}>プロジェクトを開く</button>
             <label className="file-open">JSONを開く<input type="file" accept="application/json" onChange={(event) => {
               const file = event.target.files?.[0];
               if (file) void openFile(file);
             }} /></label>
             <button type="button" onClick={() => void save()}>保存</button>
+            {dirty ? <span className="dirty">未保存</span> : null}
             <button type="button" onClick={() => void exportInstaller()} disabled={exporting}>インストーラを作成</button>
             {notice ? <span className="hint">{notice}</span> : null}
           </div>
@@ -149,6 +174,7 @@ export function App() {
             onProject={setProject}
             onPlay={() => setMode('play')}
             onPreviewWindow={() => void previewWindow()}
+            onSave={() => void save()}
           />
         </>
       ) : (
