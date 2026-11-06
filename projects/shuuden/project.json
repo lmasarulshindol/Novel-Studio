@@ -1,0 +1,44 @@
+{
+  "name": "終電のあとで",
+  "width": 1920,
+  "height": 1080,
+  "scriptFile": "script.txt",
+  "textFrame": "nameplate",
+  "title": {
+    "background": "room",
+    "backgroundVariant": "night",
+    "logo": ""
+  },
+  "assets": {
+    "backgrounds": [
+      { "id": "office", "variant": "night", "src": "shuuden/backgrounds/office_night.jpg" },
+      { "id": "bar", "variant": "night", "src": "shuuden/backgrounds/bar_night.jpg" },
+      { "id": "room", "variant": "night", "src": "shuuden/backgrounds/room_night.jpg" },
+      { "id": "room", "variant": "morning", "src": "shuuden/backgrounds/room_morning.jpg" }
+    ],
+    "characters": [
+      {
+        "id": "rin",
+        "name": "凛",
+        "expressions": [
+          { "id": "normal", "src": "shuuden/chars/rin_normal.png" },
+          { "id": "smile", "src": "shuuden/chars/rin_smile.png" },
+          { "id": "shy", "src": "shuuden/chars/rin_shy.png" },
+          { "id": "heat", "src": "shuuden/chars/rin_heat.png" }
+        ]
+      }
+    ],
+    "bgm": [],
+    "se": [],
+    "voice": [],
+    "cgs": [
+      { "id": "cg_bar", "src": "shuuden/cgs/cg_bar.jpg" },
+      { "id": "cg_door", "src": "shuuden/cgs/cg_door.jpg" },
+      { "id": "cg_bed", "src": "shuuden/cgs/cg_bed.jpg" },
+      { "id": "cg_bed_open", "src": "shuuden/cgs/cg_bed_open.jpg" },
+      { "id": "cg_morning", "src": "shuuden/cgs/cg_morning.jpg" }
+    ],
+    "ui": [],
+    "shaders": []
+  }
+}

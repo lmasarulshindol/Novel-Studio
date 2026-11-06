@@ -129,6 +129,13 @@ export class ScriptRunner {
     this.go(option.target);
   }
 
+  /** 指定ラベル位置から実行を開始する（ラベル行自体はスキップされる） */
+  jumpToLabel(label: string): void {
+    this.choiceLock = false;
+    this.currentChoice = undefined;
+    this.go(label);
+  }
+
   private go(label: string): void {
     const dest = this.program.labels[label];
     if (dest === undefined) throw new Error(`未知のラベル: ${label}`);

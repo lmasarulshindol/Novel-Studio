@@ -5,3 +5,8 @@ build/*
 !build/installer.nsh
 release/
 *.log
+**/__pycache__/
+projects/**/_gen*/
+projects/**/_gen_*/
+.DS_Store
+Thumbs.db

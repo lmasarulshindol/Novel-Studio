@@ -5,6 +5,11 @@ import { ScriptRunner, type Halt } from '../core/scenario/runner';
 import type { Program } from '../core/scenario/types';
 import type { Project } from '../core/project/project';
 import type { SaveSlot } from '../core/save/save';
+
+export type PlaybackBoot =
+  | 'new'
+  | SaveSlot
+  | { type: 'jump'; label: string };
 import { normalizeSettings, type GameSettings } from '../core/settings';
 import { rememberUnlock } from '../core/unlocks';
 import { NovelStage } from '../runtime/stage';
@@ -104,6 +109,7 @@ export class PlaybackController {
     const page = pages[index];
     const shown = visiblePageText(pages, index);
     this.stage.clear();
+    this.stage.voicePack = '';
     await this.stage.playSequence(commandsForEditPage(script, index));
     if (!this.alive || gen !== this.presentGen) return;
     this.stage.setSpeaker(shown.speaker);
@@ -129,7 +135,7 @@ export class PlaybackController {
     this.stage?.moveCharacter(id, x, y);
   }
 
-  async start(boot: 'new' | SaveSlot): Promise<void> {
+  async start(boot: PlaybackBoot): Promise<void> {
     const program = parseScenario(this.project.script);
     this.program = program;
     this.scriptPages = scenarioPages(this.project.script);
@@ -154,6 +160,19 @@ export class PlaybackController {
     });
     if (boot === 'new') {
       this.runner = new ScriptRunner(program);
+      await this.pump();
+      return;
+    }
+    if (typeof boot === 'object' && boot !== null && 'type' in boot && boot.type === 'jump') {
+      this.runner = new ScriptRunner(program);
+      try {
+        this.runner.jumpToLabel(boot.label);
+      } catch (error) {
+        this.view.error = error instanceof Error ? error.message : String(error);
+        this.view.phase = 'ended';
+        this.emit();
+        return;
+      }
       await this.pump();
       return;
     }
@@ -259,6 +278,7 @@ export class PlaybackController {
           this.view.phase = 'busy';
           this.view.line = commands[0].line;
           this.emit();
+          this.stage.voicePack = String(this.runner.variables.voice ?? '');
           await this.stage.playBatch(commands);
           continue;
         }

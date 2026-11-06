@@ -97,4 +97,48 @@ describe('シナリオパーサ', () => {
     expect(speakers).toContain('小春');
     expect(program.commands.some((command) => command.type === 'show' && command.character === 'koharu')).toBe(true);
   });
+
+  it('オーディション3本がパースできる', () => {
+    const script = fs.readFileSync('projects/audition/script.txt', 'utf8');
+    const program = parseScenario(script);
+    expect(program.errors).toEqual([]);
+    const spoken = program.commands.filter((command) => command.type === 'dialogue');
+    expect(spoken).toHaveLength(14);
+    expect(spoken.filter((command) => command.speaker === '監視役')).toHaveLength(5);
+    expect(spoken.filter((command) => command.speaker === '青年')).toHaveLength(5);
+    expect(spoken.filter((command) => command.speaker === '')).toHaveLength(4);
+    expect(program.commands.filter((command) => command.type === 'play' && command.channel === 'voice')).toHaveLength(14);
+  });
+
+  it('終電のあとで がパースでき、飛び先と素材がそろっている', () => {
+    const script = fs.readFileSync('projects/shuuden/script.txt', 'utf8');
+    const project = JSON.parse(fs.readFileSync('projects/shuuden/project.json', 'utf8'));
+    const program = parseScenario(script);
+    expect(program.errors).toEqual([]);
+    const targets = program.commands.flatMap((command) => {
+      if (command.type === 'jump') return [command.target];
+      if (command.type === 'choice') return command.options.map((option) => option.target);
+      return [];
+    });
+    for (const target of targets) expect(program.labels[target], target).toBeTypeOf('number');
+    const cgIds = project.assets.cgs.map((cg: { id: string }) => cg.id);
+    for (const command of program.commands) {
+      if (command.type === 'cg' && command.id !== 'off') expect(cgIds).toContain(command.id);
+      if (command.type === 'bg') {
+        const found = project.assets.backgrounds.some((bg: { id: string; variant?: string }) => bg.id === command.id && bg.variant === command.variant);
+        expect(found, `${command.id} ${command.variant}`).toBe(true);
+      }
+    }
+    const rin = project.assets.characters.find((character: { id: string }) => character.id === 'rin');
+    const exprs = rin.expressions.map((expr: { id: string }) => expr.id);
+    for (const command of program.commands) {
+      if ((command.type === 'show' || command.type === 'expr') && command.character === 'rin') expect(exprs).toContain(command.expr);
+    }
+    const sources = [
+      ...project.assets.backgrounds,
+      ...project.assets.cgs,
+      ...rin.expressions,
+    ].map((item: { src: string }) => `projects/${item.src}`);
+    for (const src of sources) expect(fs.existsSync(src), src).toBe(true);
+  });
 });

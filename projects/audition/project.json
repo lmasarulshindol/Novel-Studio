@@ -1,0 +1,74 @@
+{
+  "name": "三つの声",
+  "width": 1920,
+  "height": 1080,
+  "scriptFile": "script.txt",
+  "textFrame": "nameplate",
+  "title": {
+    "background": "city",
+    "backgroundVariant": "day",
+    "logo": ""
+  },
+  "assets": {
+    "backgrounds": [
+      { "id": "forest", "variant": "night", "src": "audition/backgrounds/forest_night.png" },
+      { "id": "street", "variant": "dusk", "src": "audition/backgrounds/street_dusk.png" },
+      { "id": "city", "variant": "day", "src": "audition/backgrounds/city_day.png" }
+    ],
+    "characters": [
+      {
+        "id": "watcher",
+        "name": "監視役",
+        "expressions": [
+          { "id": "serious", "src": "audition/chars/watcher_serious.png" },
+          { "id": "sad", "src": "audition/chars/watcher_sad.png" },
+          { "id": "soft", "src": "audition/chars/watcher_soft.png" }
+        ]
+      },
+      {
+        "id": "confessor",
+        "name": "青年",
+        "expressions": [
+          { "id": "surprise", "src": "audition/chars/confessor_surprise.png" },
+          { "id": "shy", "src": "audition/chars/confessor_shy.png" },
+          { "id": "soft", "src": "audition/chars/confessor_soft.png" }
+        ]
+      }
+    ],
+    "bgm": [],
+    "se": [],
+    "voice": [
+      { "id": "w1", "src": "audition/audio/w1.wav" },
+      { "id": "w2", "src": "audition/audio/w2.wav" },
+      { "id": "w3", "src": "audition/audio/w3.wav" },
+      { "id": "w4", "src": "audition/audio/w4.wav" },
+      { "id": "w5", "src": "audition/audio/w5.wav" },
+      { "id": "c1", "src": "audition/audio/c1.wav" },
+      { "id": "c2", "src": "audition/audio/c2.wav" },
+      { "id": "c3", "src": "audition/audio/c3.wav" },
+      { "id": "c4", "src": "audition/audio/c4.wav" },
+      { "id": "c5", "src": "audition/audio/c5.wav" },
+      { "id": "n1", "src": "audition/audio/n1.wav" },
+      { "id": "n2", "src": "audition/audio/n2.wav" },
+      { "id": "n3", "src": "audition/audio/n3.wav" },
+      { "id": "n4", "src": "audition/audio/n4.wav" },
+      { "id": "eleven_w1", "src": "audition/audio/eleven/w1.mp3" },
+      { "id": "eleven_w2", "src": "audition/audio/eleven/w2.mp3" },
+      { "id": "eleven_w3", "src": "audition/audio/eleven/w3.mp3" },
+      { "id": "eleven_w4", "src": "audition/audio/eleven/w4.mp3" },
+      { "id": "eleven_w5", "src": "audition/audio/eleven/w5.mp3" },
+      { "id": "eleven_c1", "src": "audition/audio/eleven/c1.mp3" },
+      { "id": "eleven_c2", "src": "audition/audio/eleven/c2.mp3" },
+      { "id": "eleven_c3", "src": "audition/audio/eleven/c3.mp3" },
+      { "id": "eleven_c4", "src": "audition/audio/eleven/c4.mp3" },
+      { "id": "eleven_c5", "src": "audition/audio/eleven/c5.mp3" },
+      { "id": "eleven_n1", "src": "audition/audio/eleven/n1.mp3" },
+      { "id": "eleven_n2", "src": "audition/audio/eleven/n2.mp3" },
+      { "id": "eleven_n3", "src": "audition/audio/eleven/n3.mp3" },
+      { "id": "eleven_n4", "src": "audition/audio/eleven/n4.mp3" }
+    ],
+    "cgs": [],
+    "ui": [],
+    "shaders": []
+  }
+}

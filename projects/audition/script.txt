@@ -1,0 +1,72 @@
+// オーディション用3本。BGMとSEは未選定。声は Gemini と Eleven v4 をメニューで切り替える。
+set voice gemini
+# menu
+bg city day with fade duration=0.6
+hide watcher
+hide confessor
+stop voice
+choice
+① 監視役を演じる -> watch
+② 想いを告げる -> confess
+③ 企業のナレーション -> brand
+声を Gemini にする -> gemini
+声を Eleven v4 にする -> eleven
+
+# gemini
+set voice gemini
+jump menu
+
+# eleven
+set voice eleven
+jump menu
+
+# watch
+bg forest night with fade duration=0.8
+show watcher serious at center with fadeIn duration=0.6
+play voice w1
+「監視役」 何度言えばわかるんだ。
+play voice w2
+「監視役」 僕はお前たちの仲間じゃない。ただ監視役を任せられただけだ。
+expr watcher sad
+play voice w3
+「監視役」 ……お前のように図々しくて、脳天気で、馴れ馴れしい奴は嫌いなんだよ。
+expr watcher serious
+play voice w4
+「監視役」 ……報告には、魔物に襲われて死んだと書いておく。
+expr watcher soft
+play voice w5
+「監視役」 だからもう、僕に関わらないでくれ……頼むから。
+jump menu
+
+# confess
+bg street dusk with fade duration=0.8
+hide watcher
+show confessor surprise at center with fadeIn duration=0.5
+play voice c1
+「青年」 ちょっと待って、今帰られると困る……いや、困るっていうか。
+expr confessor shy
+play voice c2
+「青年」 ずっと……言おうと思ってたことがあるんだ。
+play voice c3
+「青年」 何度も言おうとして、そのたびにタイミング逃してさ……。
+expr confessor shy
+play voice c4
+「青年」 絶対、笑うなよ……こういうの得意じゃないんだからさ。
+expr confessor soft
+play voice c5
+「青年」 ……お前のこと――ずっと好きだった。
+jump menu
+
+# brand
+bg city day with fade duration=0.8
+hide confessor
+stop voice
+play voice n1
+> 技術は、目に見えるものだけではない。
+play voice n2
+> より速く、より正確に、そしてより安全に。
+play voice n3
+> 積み重ねてきた一つひとつの工夫が、社会の新しい基準をつくっていく。
+play voice n4
+> 私たちは、まだ誰も見たことのない明日を、確かな技術で支えていく。
+jump menu

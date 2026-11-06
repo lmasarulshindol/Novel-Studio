@@ -76,6 +76,19 @@ describe('シナリオ実行', () => {
     expect(restored.next()).toMatchObject({ text: 'その次' });
   });
 
+  it('jumpToLabel で任意ラベルから開始', () => {
+    const program = parseScenario([
+      '「語り」 共通',
+      '# route_a',
+      '「A」 ルートA',
+      '# route_h',
+      '「H」 いきなり',
+    ].join('\n'));
+    const runner = new ScriptRunner(program);
+    runner.jumpToLabel('route_h');
+    expect(runner.next()).toMatchObject({ type: 'dialogue', text: 'いきなり' });
+  });
+
   it('未知ラベルは例外', () => {
     const runner = new ScriptRunner(parseScenario('jump missing\n'));
     expect(() => runner.next()).toThrow(/未知のラベル/);

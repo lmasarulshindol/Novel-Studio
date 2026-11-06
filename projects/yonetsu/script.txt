@@ -1,0 +1,263 @@
+// 余熱（よねつ）— 成人向け抜き特化ノベル
+// 登場人物はすべて成人：綾瀬みお（22歳・営業）、黒木せいら（24歳・バー店主）、主人公「俺」（24歳・地の文視点）。
+// 画像のH差分は水着着用の全年齢代用（後で差し替え予定）。テキストは成人向けプロットのまま。
+// 本作はフィクションです。実在の人物・団体とは無関係。未成年・学生設定はありません。
+// 音声・BGM・SEは未収録。
+
+# start
+> この作品はフィクションです。登場人物はすべて成人であり、実在の人物・団体とは関係ありません。
+> 本作には成人向けの露骨な表現が含まれます。ご了承のうえお楽しみください。
+choice
+  「綾瀬みお — ビジネスホテルの夜」 -> route_mio
+  「黒木せいら — 閉店後の個室」 -> route_seira
+  「みお：いきなりH」 -> h_mio_direct
+  「せいら：いきなりH」 -> h_seira_direct
+
+# route_mio
+bg hotel night with fadeThroughColor color=#000000 duration=1.0
+> 取引先との打ち上げを抜け出し、みお先輩が予約したビジネスホテルの廊下を歩いている。
+> エレベーターの鏡に映る彼女は、さっきまでの笑顔を消して、いつものクールな顔に戻していた。
+show mio normal at center with fadeIn duration=0.5
+「みお」 ……部屋、ここ。鍵、渡すから。
+「みお」 中に入って。……長く話すつもりはない。でも、帰すつもりもない。
+jump h_mio
+
+# h_mio_direct
+bg hotel night with fadeThroughColor color=#000000 duration=0.8
+show mio heat at center with fadeIn duration=0.5
+「みお」 ……待たせた？ もう、我慢の限界だから。言い訳は後でいい。
+jump h_mio
+
+# h_mio
+bg lounge night with dipBlack duration=0.9
+hide mio with fadeOut duration=0.3
+> 客室のラウンジスペース。窓の外はビルの灯りだけ。エアコンの低い音のなか、ワインのグラスが小さく触れ合う。
+show mio smile at center with fadeIn duration=0.5
+「みお」 酔ってない。……酔ったふりもしない。今夜は、はっきり言う。
+「みお」 あんた、ずっと見てたでしょ。会議室でも、エレベーターでも。
+> グラスを置く音。みおがこちらに近づき、ネクタイの結び目を指でつまんだ。
+expr mio heat
+「みお」 余計なことは考えないで。……触れていいのは、今夜だけじゃない。ずっと、触れてほしかった。
+cg cg_mio_kiss with fadeIn duration=1.0
+> 唇が重なる。赤ワインの澱と、彼女自身の甘い吐息が混ざる。
+> 舌を受け入れるたび、みおの指が襟元を掴む力が強くなる。クールな先輩の歯列が、少しずつ緩んでいく。
+「みお」 ん……っ。……キス、下手じゃない。誰かと、練習した？
+> 答える前に、みおが首筋へ唇を滑らせた。血管の鼓動が、濡れた触れ方で伝わってくる。
+「みお」 嘘ついたら、ここで終わり。……本当は、初めてじゃない。でも、こんなに震えるのは、初めて。
+fx screen blur amount=3 duration=0.5
+> 背中に回した手が、ブラウスの裾を探る。みおは抵抗せず、自分から息を吐いて身を預けた。
+cg off with fadeOut duration=0.6
+expr mio heat
+「みお」 ベッドに行く。……ここじゃ、スーツが汚れる。
+bg room night with fadeThroughColor color=#000000 duration=1.0
+camera letterbox amount=55 duration=0.5
+> ベッドサイドの間接照明だけが、白いシーツを温かく染める。
+> みおはベッド端に座り、ジャケットを肩から滑らせた。細い肩線が、灯りの中で浮かぶ。
+show mio heat at center with fadeIn duration=0.4
+「みお」 見ないで、って言いたいけど……見て。あんたに、見られたい。
+cg cg_mio_undress with fadeIn duration=1.0
+> ボタンを外す手が、かすかに震えている。それでもみおは視線を逸らさず、一枚ずつ肌を明かしていく。
+> ブラウスが床に落ち、レースの下着越しに乳首の形が透ける。彼女は腕を上げ、自分で髪を束ね直した。
+「みお」 ……恥ずかしいのは、こういう格好じゃない。欲しがってる顔を、見られること。
+> 膝の上に乗せた手を、みおが自分の太ももへ導く。布越しの熱が、すでに湿りを帯びていた。
+choice
+  「ゆっくり焦らす」 -> h_mio_tease
+  「欲しがるままに」 -> h_mio_want
+
+# h_mio_tease
+set path tease
+> 急がないと決め、下着の縁だけを指でなぞる。みおの腹筋がびくりと収縮した。
+「みお」 ……っ、そんな、端だけ……ずるい、わかってるでしょ……。
+> 耳朶を唇で挟み、舌先で転がす。みおの手がシーツを掴み、指先が白くなる。
+「みお」 ん、っ……焦らすの、得意？ ……営業のくせに、人の弱いとこ、よく知って……。
+> レースを少しずつずらし、直接触れないまま周囲だけを撫でる。みおの腰が小刻みに揺れた。
+「みお」 触って……っ、直接、触ってよ……もう、我慢、できない……。
+> 彼女の懇願をあと一回だけ無視し、内腿を舐め上げる。みおの声が、壊れそうなほど抑えきれなくなる。
+「みお」 あんた……っ、殺すつもり？ ……来て、もう、来て……！
+jump h_mio_join
+
+# h_mio_want
+set path want
+「俺」 みおが望むとおりに、していいですか。
+expr mio climax
+「みお」 ……さん、付けないで。今夜は、みお、って呼んで。
+> 言われたとおり、レースを一気にずらした。指が滑り込むと、みおの背中が弓なりに反る。
+「みお」 ぁ、っ……そう、そこ……深い、とこ……っ。
+> 二本目を加えると、みおは俺の肩に爪を立て、唇を噛みしめた。それでも腰は止まらず、求めるように動く。
+「みお」 もっと……乱暴で、いい……っ。優しいの、逆に、耐えられない……。
+> 彼女の中から溢れる湿りが、指の動きに合わせて音を立てる。みおは羞恥より快楽に負け、声を上げ始めた。
+「みお」 見て……っ、みおが、こんな顔……あんたの前だけ、だから……っ。
+jump h_mio_join
+
+# h_mio_join
+cg cg_mio_undress with fadeIn duration=0.5
+> 最後の一枚を脱がせ、みおをベッド中央へ押し倒す。彼女は自分から脚を開き、俺を引き寄せた。
+「みお」 準備、して。……ゴム、枕元。買ってきた、わけじゃない。……常備、なの。
+> 笑いながらキスを重ね、準備を終える。みおの瞳が、期待で潤んで揺れる。
+cg cg_mio_connect with fadeIn duration=1.0
+camera camZoom zoom=1.05 duration=1.8
+> 先端を当て、ゆっくり腰を沈める。みおの中は熱く、きつく、俺を拒まず飲み込んでいく。
+「みお」 は、っ……！ 入って……くる……っ、太い……。
+> 根元まで届いた瞬間、みおは両脚を俺の腰に絡め、離さないとばかりに締めつけた。
+「みお」 動いていい……。……いや、動いて。命令、よ。
+if path == tease -> h_mio_pace_slow
+jump h_mio_pace_fast
+
+# h_mio_pace_slow
+> 浅く引いて、深く押し返す。みおの内壁が、寸ごとに吸い付いてくる。
+「みお」 ん、っ……そう、そこ……っ、角、当たって……。
+> 額を合わせ、呼吸を分け合う。みおの吐息が、少しずつ荒く、甘く変わっていく。
+「みお」 キス、しながら……っ。声、出ちゃうから……。
+jump h_mio_climax
+
+# h_mio_pace_fast
+> 抑えていた動きを解き、みおの求めるリズムで腰を打ちつける。ベッドが規則正しくきしむ。
+「みお」 ぁ、っ、それ……！ 深い、っ……もっと、っ……！
+> みおは自分から胸元を押し付け、俺の手を導いて乳首を揉ませた。快感で目尻が涙に濡れる。
+「みお」 みおの、中……っ、あんたので、いっぱい……っ、壊れて、いい……！
+jump h_mio_climax
+
+# h_mio_climax
+fx screen vignette amount=0.55 duration=0.7
+expr mio climax
+> 速度が上がるたび、みおの声が天井に跳ね返る。ホテルの壁は厚いが、彼女はそれを忘れたように叫んだ。
+「みお」 来る……っ、一緒に……っ、みお、もう……っ！
+cg cg_mio_climax with fadeIn duration=0.9
+camera shake amount=5 duration=0.45 + fx screen flash color=#ffffff duration=0.7
+> みおの全身が弓なりに反り、内側が激しく脈打つ。俺も限界を越え、彼女の名を呼びながら深く押し込んだ。
+「みお」 あ、っ……！ 中、っ……熱い……っ、好き……っ、好き……！
+> 余韻のあいだ、みおは震える指で俺の背中を撫で続けた。鼓動が、重なった肌越しに伝わり合う。
+camera camZoom zoom=1 duration=1.2
+fx screen vignette amount=0.15 duration=0.8
+cg off with fadeOut duration=0.8
+expr mio smile
+show mio smile at center with fadeIn duration=0.5
+「みお」 ……はぁ。……明日、会議室で会ったら、知らない顔してね。
+「みお」 できない？ ……じゃあ、私のほうが、余計なこと言わないようにする。
+> みおは俺の胸に頬を押し当て、小さく笑った。クールな先輩の声が、とろけるほど柔らかかった。
+jump end_mio
+
+# end_mio
+bg hotel night with fadeThroughColor color=#000000 duration=1.0
+hide mio with fadeOut duration=0.6
+> ―― END「余熱 — 綾瀬みお」 ――
+jump fin
+
+# route_seira
+bg bar night with fadeThroughColor color=#000000 duration=1.0
+> 最後の客が帰り、シャッターが下りたあとのバー。氷がグラスで溶ける音だけが残っている。
+show seira smile at center with fadeIn duration=0.5
+「せいら」 閉店よ。……でも、あなただけは、まだ退店時間じゃない。
+「せいら」 奥の個室、使って。鍵、かけたから。誰も、入ってこない。
+jump h_seira
+
+# h_seira_direct
+bg bar night with fadeThroughColor color=#000000 duration=0.8
+show seira heat at center with fadeIn duration=0.5
+「せいら」 待った？ ……いいえ、待ってない。待てない体なの。さ、個室。
+jump h_seira
+
+# h_seira
+bg lounge night with dipBlack duration=0.9
+> 個室は薄暗く、革のソファと低いテーブルだけ。壁際には、せいらが好むウイスキーのボトルが並ぶ。
+show seira normal at center with fadeIn duration=0.5
+「せいら」 ここ、店の真ん中より静かでしょ。……秘密、守れる？
+> せいらはカウンター越しに見せていた笑顔を、いまは俺だけに向けている。自信に満ちた目が、少しだけ色っぽく揺れた。
+expr seira heat
+「せいら」 あなた、いつも最後まで残るのね。……私が閉店するまで。それ、わざとでしょ。
+「俺」 せいらの作るカクテルが、好きなんです。
+「せいら」 甘い言葉。……でも、嫌じゃない。今夜は、サービス、付けてあげる。
+cg cg_seira_close with fadeIn duration=1.0
+> 距離がなくなる。せいらの香水——ウッドとバニラ——が、鼻先を満たす。
+> 唇が触れた瞬間、彼女の舌が積極的に絡んできた。バーの女王は、キスでも主導権を渡さない。
+「せいら」 ん……っ。……上手。誰かに、教わったわけ？
+> 答えるより先に、せいらが俺のシャツのボタンを外し始めた。指先が胸板をなぞるたび、火が走る。
+「せいら」 ここ、ソファでいい。……ベッドより、背中押されるの、好き。
+fx screen vignette amount=0.35 duration=0.6
+> 押し倒されると、せいらが跨ってきた。スカートの裾が太ももを滑り、革の感触が背中に伝わる。
+cg off with fadeOut duration=0.5
+cg cg_seira_lap with fadeIn duration=1.0
+「せいら」 動かないで。……今夜は、私が動く番。
+> せいらは腰を揺すり、俺の上でゆっくりと位置を確かめていく。布越しの摩擦だけで、双方の呼吸が乱れた。
+「せいら」 感じてる？ ……あなたの、ここ。もう、硬いわ。
+> 彼女の手がファスナーを下ろし、熱い肌が直接触れ合う。せいらは小さく息を呑み、それでも笑みを崩さなかった。
+「せいら」 見てて。……どうやって、男を酔わせるか。レッスン、無料よ。
+choice
+  「ゆっくり焦らす」 -> h_seira_tease
+  「欲しがるままに」 -> h_seira_want
+
+# h_seira_tease
+set path tease
+> せいらの腰を両手で支え、動きを止めた。彼女は不満そうに眉を寄せ、それでも離れない。
+「せいら」 ……っ、意地悪。……そんな、止めないで。
+> せいらの首筋を舐め上げ、耳朶で息を吹きかける。彼女の腰が、勝手に小さく震える。
+「せいら」 ん、っ……焦らすの、得意ね……バーテンダーのくせに、待たせるの……。
+> 再び動かし始めるが、今度は浅く、遅く。せいらの爪が俺の肩に食い込み、我慢の限界が声に漏れた。
+「せいら」 もう、いい……っ！ 奥まで、来て……！ 命令、するわ……来なさい！
+jump h_seira_join
+
+# h_seira_want
+set path want
+「俺」 せいら、どうしたい？
+expr seira climax
+「せいら」 ……聞く必要、ないでしょ。体、正直よ。
+> せいらは自分から腰を落とし、一気に深く受け入れた。声を上げ、一瞬だけ目を見開く。
+「せいら」 ぁ、っ……！ 大きい……っ、でも、止めない……っ。
+> 彼女は両手を俺の胸に押し当て、自分で腰を振り始めた。スカートの裾が乱れ、汗が鎖骨を伝う。
+「せいら」 見て……っ、私が、こんな……っ、あなたの上で、酔ってる……っ。
+> リズムが速くなり、せいらの声が個室の壁に反響する。自信家の店主は、快楽のままに首を振った。
+「せいら」 もっと、っ……突いて……！ 私の、中……っ、乱して……！
+jump h_seira_join
+
+# h_seira_join
+bg room night with fadeThroughColor color=#000000 duration=0.8
+camera letterbox amount=55 duration=0.5
+> ソファから床のラグへ。せいらを仰向けに倒し、脚を肩に載せる。彼女は挑むように笑い、自分から腰を浮かせた。
+「せいら」 ゴム、あるわ。……引き出し。常連向けじゃない、私用。
+cg cg_seira_connect with fadeIn duration=1.0
+> 準備を済ませ、再び結び合う。今度は正面から、互いの顔が見える距離で。
+「せいら」 は、っ……！ 来た……っ、深い、っ……！
+> 一本の腕をせいらの首下に回し、もう一方の手で腰を掴む。彼女の内側が、俺の形に吸い付いて離れない。
+if path == tease -> h_seira_pace_slow
+jump h_seira_pace_fast
+
+# h_seira_pace_slow
+> 長いストロークで、出し入れを繰り返す。せいらは唇を噛み、それでも甘い声が漏れる。
+「せいら」 ん、っ……そう、優しく……っ、でも、止まらないで……。
+> キスを交わしながら、角度を少しずつ変える。せいらの瞳が、涙と快楽で潤んだ。
+jump h_seira_climax
+
+# h_seira_pace_fast
+> せいらの要望どおり、腰の動きを激しくする。ラグがずれ、テーブル脚が小さく鳴った。
+「せいら」 ぁ、っ、それ……！ そこ、っ……もう、ダメ……っ！
+> せいらは自分から胸を揉みしだき、俺の名を呼ばずに「来て」と懇願した。
+jump h_seira_climax
+
+# h_seira_climax
+fx screen vignette amount=0.6 duration=0.7
+expr seira climax
+> せいらの脚が俺の腰を締め、全身がびくびくと痙攣する。内側の収縮が、俺を限界まで追い詰める。
+「せいら」 イく……っ、一緒……っ、来て……っ！
+cg cg_seira_climax with fadeIn duration=0.9
+camera shake amount=6 duration=0.5 + fx screen flash color=#ffffff duration=0.75
+> 名前を呼び合い、同時に頂点を越えた。せいらは長い息を吐き、俺の胸に顔を埋めた。
+「せいら」 あ、っ……中、熱い……っ、……好き、かも……。今夜だけ、ね……っ。
+> しばらく、二人とも動けない。バーの外では、遠く車の音が一つだけ通り過ぎた。
+camera camZoom zoom=1 duration=1.2
+fx screen vignette amount=0.1 duration=0.8
+cg off with fadeOut duration=0.8
+expr seira smile
+show seira smile at center with fadeIn duration=0.5
+「せいら」 ……さ、着替えなさい。店の前で、ボロボロの顔出したら、私の評判が落ちるわ。
+「せいら」 また来なさい。……次は、閉店前じゃなくても、いいから。
+jump end_seira
+
+# end_seira
+bg bar night with fadeThroughColor color=#000000 duration=1.0
+hide seira with fadeOut duration=0.6
+> ―― END「余熱 — 黒木せいら」 ――
+jump fin
+
+# fin
+> 遊んでいただき、ありがとうございました。
+> ―― 余熱（よねつ） ――

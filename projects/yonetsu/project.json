@@ -1,0 +1,141 @@
+{
+  "name": "余熱",
+  "width": 1920,
+  "height": 1080,
+  "scriptFile": "script.txt",
+  "textFrame": "nameplate",
+  "title": {
+    "background": "hotel",
+    "backgroundVariant": "night",
+    "logo": ""
+  },
+  "routes": [
+    {
+      "id": "mio",
+      "label": "綾瀬みお",
+      "age": 22,
+      "blurb": "クールな先輩営業。打ち上げのあと、予約済みのホテルへ。",
+      "startLabel": "route_mio",
+      "hLabel": "h_mio_direct",
+      "portrait": "mio/normal"
+    },
+    {
+      "id": "seira",
+      "label": "黒木せいら",
+      "age": 24,
+      "blurb": "自信家のバー店主。閉店後の個室で、余熱が残る夜。",
+      "startLabel": "route_seira",
+      "hLabel": "h_seira_direct",
+      "portrait": "seira/normal"
+    }
+  ],
+  "assets": {
+    "backgrounds": [
+      {
+        "id": "hotel",
+        "variant": "night",
+        "src": "yonetsu/backgrounds/hotel_night.jpg"
+      },
+      {
+        "id": "lounge",
+        "variant": "night",
+        "src": "yonetsu/backgrounds/lounge_night.jpg"
+      },
+      {
+        "id": "room",
+        "variant": "night",
+        "src": "yonetsu/backgrounds/room_night.jpg"
+      },
+      {
+        "id": "bar",
+        "variant": "night",
+        "src": "yonetsu/backgrounds/bar_night.jpg"
+      }
+    ],
+    "characters": [
+      {
+        "id": "mio",
+        "name": "みお",
+        "expressions": [
+          {
+            "id": "normal",
+            "src": "yonetsu/chars/mio_normal.png"
+          },
+          {
+            "id": "smile",
+            "src": "yonetsu/chars/mio_smile.png"
+          },
+          {
+            "id": "heat",
+            "src": "yonetsu/chars/mio_heat.png"
+          },
+          {
+            "id": "climax",
+            "src": "yonetsu/chars/mio_climax.png"
+          }
+        ]
+      },
+      {
+        "id": "seira",
+        "name": "せいら",
+        "expressions": [
+          {
+            "id": "normal",
+            "src": "yonetsu/chars/seira_normal.png"
+          },
+          {
+            "id": "smile",
+            "src": "yonetsu/chars/seira_smile.png"
+          },
+          {
+            "id": "heat",
+            "src": "yonetsu/chars/seira_heat.png"
+          },
+          {
+            "id": "climax",
+            "src": "yonetsu/chars/seira_climax.png"
+          }
+        ]
+      }
+    ],
+    "bgm": [],
+    "se": [],
+    "voice": [],
+    "cgs": [
+      {
+        "id": "cg_mio_kiss",
+        "src": "yonetsu/cgs/cg_mio_kiss.jpg"
+      },
+      {
+        "id": "cg_mio_undress",
+        "src": "yonetsu/cgs/cg_mio_undress.jpg"
+      },
+      {
+        "id": "cg_mio_connect",
+        "src": "yonetsu/cgs/cg_mio_connect.jpg"
+      },
+      {
+        "id": "cg_mio_climax",
+        "src": "yonetsu/cgs/cg_mio_climax.jpg"
+      },
+      {
+        "id": "cg_seira_close",
+        "src": "yonetsu/cgs/cg_seira_close.jpg"
+      },
+      {
+        "id": "cg_seira_lap",
+        "src": "yonetsu/cgs/cg_seira_lap.jpg"
+      },
+      {
+        "id": "cg_seira_connect",
+        "src": "yonetsu/cgs/cg_seira_connect.jpg"
+      },
+      {
+        "id": "cg_seira_climax",
+        "src": "yonetsu/cgs/cg_seira_climax.jpg"
+      }
+    ],
+    "ui": [],
+    "shaders": []
+  }
+}

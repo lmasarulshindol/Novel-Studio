@@ -240,6 +240,91 @@ input[type="text"], input:not([type="checkbox"]):not([type="range"]):not([type="
 .menu-col { flex-direction: column; }
 .menu-col button { width: 100%; }
 
+.route-select-screen {
+  min-height: 100%;
+  padding: 2.5rem 1.75rem 2rem;
+  background: #12100e;
+  color: #e8dfd0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.route-select-head h2 {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+}
+.route-select-lead {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: #a89880;
+}
+.route-select-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+.route-card {
+  display: grid;
+  grid-template-columns: minmax(0, 140px) 1fr;
+  gap: 1.25rem;
+  padding: 1.25rem 1.35rem;
+  background: rgba(24, 20, 16, 0.92);
+  border: 1px solid #4a4034;
+  border-radius: 4px;
+}
+.route-card-portrait img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: #0c0a08;
+  border-radius: 2px;
+  display: block;
+}
+.route-card-body h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+.route-card-age {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: #c4b59a;
+}
+.route-card-blurb {
+  margin: 0.85rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #d4c8b4;
+}
+.route-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.1rem;
+}
+.route-card-actions button {
+  min-width: 7rem;
+}
+.route-card-h {
+  border-color: #6a5040;
+  background: #2a2018;
+}
+.route-select-back {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+@media (max-width: 560px) {
+  .route-card {
+    grid-template-columns: 1fr;
+  }
+  .route-card-portrait {
+    max-width: 160px;
+  }
+}
+
 .slider, .check { display: flex; gap: 0.6rem; align-items: center; }
 .slider input { flex: 1; }
 .slot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 1rem 0; }
@@ -314,6 +399,21 @@ input[type="text"], input:not([type="checkbox"]):not([type="range"]):not([type="
 .game-screen.frame-layout-overlay .choices,
 .game-screen.frame-layout-overlay .ended,
 .game-screen.frame-layout-overlay .error-line { pointer-events: auto; }
+.editor-monitor {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 0.2rem;
+  padding-top: 0.35rem;
+}
+.monitor-row {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+  gap: 0.35rem;
+  align-items: center;
+  font-size: 0.78rem;
+}
+.monitor-row .check { margin: 0; white-space: nowrap; }
+.monitor-row input[type="range"] { width: 100%; }
 .editor-body aside.preview-pane {
   display: flex;
   flex-direction: column;

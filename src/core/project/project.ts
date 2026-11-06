@@ -17,6 +17,17 @@ export type CharacterAsset = {
   expressions: ExpressionAsset[];
 };
 
+/** タイトルから選べるヒロインルート（任意・後方互換） */
+export type ProjectRoute = {
+  id: string;
+  label: string;
+  age: number;
+  blurb: string;
+  startLabel: string;
+  hLabel: string;
+  portrait?: string;
+};
+
 export type Project = {
   name: string;
   width: number;
@@ -39,6 +50,7 @@ export type Project = {
     ui: MediaAsset[];
     shaders: MediaAsset[];
   };
+  routes?: ProjectRoute[];
 };
 
 export type AssetDraft =
@@ -53,6 +65,31 @@ export function createEmptyProject(): Project {
   });
 }
 
+function normalizeRoutes(raw: unknown): ProjectRoute[] | undefined {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  const routes: ProjectRoute[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== 'object') continue;
+    const row = item as Partial<ProjectRoute>;
+    const id = String(row.id ?? '').trim();
+    const label = String(row.label ?? '').trim();
+    const startLabel = String(row.startLabel ?? '').trim();
+    const hLabel = String(row.hLabel ?? '').trim();
+    if (!id || !label || !startLabel || !hLabel) continue;
+    const age = Number(row.age);
+    routes.push({
+      id,
+      label,
+      age: Number.isFinite(age) ? age : 0,
+      blurb: String(row.blurb ?? '').trim(),
+      startLabel,
+      hLabel,
+      portrait: row.portrait ? String(row.portrait).trim() : undefined,
+    });
+  }
+  return routes.length ? routes : undefined;
+}
+
 export function normalizeProject(raw: unknown): Project {
   const source = (raw ?? {}) as Partial<Project> & { scriptFile?: string };
   const assets = source.assets ?? {
@@ -65,7 +102,8 @@ export function normalizeProject(raw: unknown): Project {
     ui: [],
     shaders: [],
   };
-  return {
+  const routes = normalizeRoutes(source.routes);
+  const project: Project = {
     name: source.name || '無題',
     width: source.width || 1920,
     height: source.height || 1080,
@@ -88,6 +126,8 @@ export function normalizeProject(raw: unknown): Project {
       shaders: assets.shaders ?? [],
     },
   };
+  if (routes) project.routes = routes;
+  return project;
 }
 
 export function addAsset(project: Project, draft: AssetDraft): Project {
@@ -150,12 +190,45 @@ export function findAudio(project: Project, channel: 'bgm' | 'se' | 'voice', id:
   return list.find((item) => item.id === id);
 }
 
+/** 声のパック名があれば `パック_id` を優先し、無ければ元のボイスに戻す。 */
+export function findVoice(project: Project, id: string, pack?: string): MediaAsset | undefined {
+  const named = pack?.trim();
+  if (named && named !== 'gemini') {
+    const packed = findAudio(project, 'voice', `${named}_${id}`);
+    if (packed) return packed;
+  }
+  return findAudio(project, 'voice', id);
+}
+
 export function findCg(project: Project, id: string): MediaAsset | undefined {
   return project.assets.cgs.find((item) => item.id === id);
 }
 
 export function findUi(project: Project, id: string): MediaAsset | undefined {
   return project.assets.ui.find((item) => item.id === id);
+}
+
+/** ルートカード用。UI id、`キャラ/表情`、表情 src のいずれか */
+export function resolveRoutePortrait(project: Project, portrait?: string): string | undefined {
+  if (!portrait?.trim()) return undefined;
+  const key = portrait.trim();
+  const ui = findUi(project, key);
+  if (ui?.src) return mediaUrl(ui.src);
+  const slash = key.indexOf('/');
+  if (slash >= 0) {
+    const charId = key.slice(0, slash);
+    const exprId = key.slice(slash + 1);
+    const expr = findExpression(project, charId, exprId);
+    if (expr?.src) return mediaUrl(expr.src);
+  }
+  for (const character of project.assets.characters) {
+    for (const expression of character.expressions) {
+      if (expression.id === key || expression.src === key) return mediaUrl(expression.src);
+    }
+  }
+  const character = findCharacter(project, key);
+  if (character?.expressions[0]?.src) return mediaUrl(character.expressions[0].src);
+  return undefined;
 }
 
 export function findShader(project: Project, id: string): MediaAsset | undefined {

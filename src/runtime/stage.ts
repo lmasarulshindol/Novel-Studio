@@ -33,6 +33,7 @@ import { ease } from '../core/effects/easing';
 import { sampleBezier, sampleTrack } from '../core/effects/track';
 import {
   findAudio,
+  findVoice,
   findBackground,
   findByName,
   findCg,
@@ -120,6 +121,7 @@ function canvasTexture(draw: (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasE
 
 export class NovelStage {
   readonly audio = new AudioBus();
+  voicePack = '';
   onUnlock?: (kind: 'bgm' | 'cg', id: string) => void;
   onTextFx: ((mode: 'typewriter' | 'textFade' | 'textShake') => void) | null = null;
   private app?: Application;
@@ -410,7 +412,9 @@ export class NovelStage {
       return this.animate(null, planEffect(command.effect.preset, command.effect.params, this.contextFor(null, 'particle')));
     }
     if (command.type === 'play') {
-      const asset = findAudio(this.project, command.channel, command.id);
+      const asset = command.channel === 'voice'
+        ? findVoice(this.project, command.id, this.voicePack)
+        : findAudio(this.project, command.channel, command.id);
       this.audio.play(command.channel, mediaUrl(asset?.src ?? ''), { loop: command.loop, fade: command.fade });
       if (command.channel === 'bgm' && asset) this.onUnlock?.('bgm', command.id);
       return;

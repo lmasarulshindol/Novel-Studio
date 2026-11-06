@@ -3,7 +3,9 @@ import {
   findBackground,
   findUi,
   mediaUrl,
+  resolveRoutePortrait,
   type Project,
+  type ProjectRoute,
 } from '../core/project/project';
 import { readSlot, writeSlot, type SaveFile, type SaveSlot } from '../core/save/save';
 import { type GameSettings } from '../core/settings';
@@ -11,9 +13,7 @@ import { loadUnlocks, rememberUnlock, type Unlocks } from '../core/unlocks';
 import { playSystemCue } from '../runtime/audio';
 import { getTextFrame } from '../core/project/text-frame';
 import { MessageBox } from './MessageBox';
-import { PlaybackController, type PlayView } from './PlaybackController';
-
-type Boot = 'new' | SaveSlot;
+import { PlaybackController, type PlaybackBoot, type PlayView } from './PlaybackController';
 
 export function PlayerView({
   project,
@@ -30,9 +30,10 @@ export function PlayerView({
   onSaves: (saves: SaveFile) => void;
   onExit: () => void;
 }) {
-  const [screen, setScreen] = useState<'title' | 'config' | 'load' | 'game' | 'gallery' | 'sound'>('title');
+  const [screen, setScreen] = useState<'title' | 'config' | 'load' | 'game' | 'gallery' | 'sound' | 'routes'>('title');
   const [unlocks, setUnlocks] = useState<Unlocks>(() => loadUnlocks(project.name));
-  const [boot, setBoot] = useState<Boot | null>(null);
+  const [boot, setBoot] = useState<PlaybackBoot | null>(null);
+  const routes = project.routes;
   const latest = saves.slots.filter((slot): slot is SaveSlot => slot !== null).sort((a, b) => (a.savedAt < b.savedAt ? 1 : -1))[0];
   const bg = findBackground(project, project.title.background, project.title.backgroundVariant);
   const logo = findUi(project, project.title.logo);
@@ -87,6 +88,20 @@ export function PlayerView({
       />
     );
   }
+  if (screen === 'routes' && routes?.length) {
+    return (
+      <RouteSelectScreen
+        project={project}
+        routes={routes}
+        onStart={(label) => {
+          cue();
+          setBoot({ type: 'jump', label });
+          setScreen('game');
+        }}
+        onBack={() => setScreen('title')}
+      />
+    );
+  }
   if (screen === 'game' && boot) {
     return (
       <GameScreen
@@ -110,6 +125,9 @@ export function PlayerView({
         {logo ? <img src={mediaUrl(logo.src)} alt="" className="title-logo" /> : null}
         <h1>{project.name}</h1>
         <div className="menu-col">
+          {routes?.length ? (
+            <button type="button" onClick={() => { cue(); setScreen('routes'); }}>相手を選ぶ</button>
+          ) : null}
           <button type="button" onClick={() => { cue(); setBoot('new'); setScreen('game'); }}>はじめから</button>
           <button type="button" disabled={!latest} onClick={() => { if (!latest) return; cue(); setBoot(latest); setScreen('game'); }}>つづきから</button>
           <button type="button" onClick={() => { cue(); setScreen('load'); }}>ロード</button>
@@ -234,6 +252,51 @@ function SoundScreen({
   );
 }
 
+function RouteSelectScreen({
+  project,
+  routes,
+  onStart,
+  onBack,
+}: {
+  project: Project;
+  routes: ProjectRoute[];
+  onStart: (label: string) => void;
+  onBack: () => void;
+}) {
+  return (
+    <section className="route-select-screen">
+      <header className="route-select-head">
+        <h2>相手を選ぶ</h2>
+        <p className="route-select-lead">誰と過ごすか、選んでください。</p>
+      </header>
+      <div className="route-select-grid">
+        {routes.map((route) => {
+          const portrait = resolveRoutePortrait(project, route.portrait);
+          return (
+            <article key={route.id} className="route-card">
+              {portrait ? (
+                <div className="route-card-portrait">
+                  <img src={portrait} alt="" />
+                </div>
+              ) : null}
+              <div className="route-card-body">
+                <h3>{route.label}</h3>
+                <p className="route-card-age">{route.age}歳</p>
+                {route.blurb ? <p className="route-card-blurb">{route.blurb}</p> : null}
+                <div className="route-card-actions">
+                  <button type="button" onClick={() => onStart(route.startLabel)}>はじめる</button>
+                  <button type="button" className="route-card-h" onClick={() => onStart(route.hLabel)}>いきなりH</button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <button type="button" className="route-select-back" onClick={onBack}>戻る</button>
+    </section>
+  );
+}
+
 function SlotScreen({ title, saves, onPick, onBack }: { title: string; saves: SaveFile; onPick: (slot: SaveSlot | null) => void; onBack: () => void }) {
   return (
     <section className="panel-screen">
@@ -256,7 +319,7 @@ function GameScreen({
   project: Project;
   settings: GameSettings;
   saves: SaveFile;
-  boot: Boot;
+  boot: PlaybackBoot;
   onSettings: (settings: GameSettings) => void;
   onSaves: (saves: SaveFile) => void;
   onTitle: () => void;

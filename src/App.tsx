@@ -155,6 +155,9 @@ export function App() {
               <div className="menu-panel">
                 <button type="button" onClick={() => openBundled('/sample/project.json')}>見本：放課後の演出</button>
                 <button type="button" onClick={() => openBundled('/duet/project.json')}>二人の放課後</button>
+                <button type="button" onClick={() => openBundled('/audition/project.json')}>三つの声</button>
+                <button type="button" onClick={() => openBundled('/shuuden/project.json')}>終電のあとで</button>
+                <button type="button" onClick={() => openBundled('/yonetsu/project.json')}>余熱（成人向け）</button>
               </div>
             </details>
             <button type="button" onClick={() => void openNative()}>プロジェクトを開く</button>

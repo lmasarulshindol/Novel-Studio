@@ -5,6 +5,7 @@ import { addAsset, mediaUrl, type AssetDraft, type CharacterAsset, type Project 
 import { getTextFrame, TEXT_FRAMES } from '../core/project/text-frame';
 import { MessageBox } from '../player/MessageBox';
 import { canRedo, canUndo, commitHistory, createHistory, redoHistory, undoHistory, type History } from '../core/editor/history';
+import { applyMonitor, loadEditorMonitor, saveEditorMonitor, type EditorMonitor, type MonitorChannel } from '../core/editor/monitor';
 import {
   deleteLines,
   duplicateLines,
@@ -51,6 +52,9 @@ export function EditorView({
   const [selectedObject, setSelectedObject] = useState<'text' | 'character'>('text');
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
   const [exprNotice, setExprNotice] = useState('');
+  const [monitor, setMonitor] = useState<EditorMonitor>(() => loadEditorMonitor(settings));
+  const monitorRef = useRef(monitor);
+  monitorRef.current = monitor;
   const [pageIndex, setPageIndex] = useState(0);
   const safeIndex = pages.length ? Math.min(pageIndex, pages.length - 1) : 0;
   const currentPage = pages[safeIndex];
@@ -121,11 +125,14 @@ export function EditorView({
   useEffect(() => {
     if (!host || editStarted.current) return;
     editStarted.current = true;
-    const playback = new PlaybackController(host, project, settings);
+    const playback = new PlaybackController(host, project, applyMonitor(settings, monitorRef.current));
     playback.setListener((next) => setView(next));
     setPreview(playback);
     setEditMode(true);
   }, [host, project, settings]);
+  useEffect(() => {
+    preview?.setSettings(applyMonitor(settings, monitor));
+  }, [preview, settings, monitor]);
   useEffect(() => () => previewAudio.current?.pause(), []);
   useEffect(() => {
     if (pendingLine == null) return;
@@ -270,7 +277,7 @@ export function EditorView({
       return;
     }
     preview?.destroy();
-    const playback = new PlaybackController(host, project, settings);
+    const playback = new PlaybackController(host, project, applyMonitor(settings, monitor));
     playback.setListener((next) => setView(next));
     setPreview(playback);
     setPageIndex(safeIndex);
@@ -281,7 +288,7 @@ export function EditorView({
     if (!host) return;
     setEditMode(false);
     preview?.destroy();
-    const playback = new PlaybackController(host, project, settings);
+    const playback = new PlaybackController(host, project, applyMonitor(settings, monitor));
     playback.setListener((next) => {
       setView(next);
       setLine(next.line);
@@ -294,7 +301,7 @@ export function EditorView({
   const stopPreview = () => {
     if (!host) return;
     preview?.destroy();
-    const playback = new PlaybackController(host, project, settings);
+    const playback = new PlaybackController(host, project, applyMonitor(settings, monitor));
     playback.setListener((next) => setView(next));
     setPreview(playback);
     setView(null);
@@ -352,11 +359,15 @@ export function EditorView({
     if (fileRef.current) fileRef.current.value = '';
   };
 
-  const listen = (src: string, loop: boolean) => {
+  const changeMonitor = (next: EditorMonitor) => {
+    setMonitor(next);
+    saveEditorMonitor(next);
+  };
+  const listen = (src: string, channel: MonitorChannel) => {
     previewAudio.current?.pause();
     const audio = new Audio(mediaUrl(src));
-    audio.loop = loop;
-    audio.volume = loop ? settings.bgm : settings.se;
+    audio.loop = channel === 'bgm';
+    audio.volume = monitor[channel];
     previewAudio.current = audio;
     void audio.play().catch(() => undefined);
   };
@@ -438,13 +449,13 @@ export function EditorView({
               </li>
             ))}
             {project.assets.bgm.map((item) => (
-              <AudioAsset key={item.id} label={`BGM ${item.id}`} onListen={() => listen(item.src, true)} onInsert={() => insertSnippet(`play bgm ${item.id} loop fade=1.2`)} />
+              <AudioAsset key={item.id} label={`BGM ${item.id}`} onListen={() => listen(item.src, 'bgm')} onInsert={() => insertSnippet(`play bgm ${item.id} loop fade=1.2`)} />
             ))}
             {project.assets.se.map((item) => (
-              <AudioAsset key={`se-${item.id}`} label={`SE ${item.id}`} onListen={() => listen(item.src, false)} onInsert={() => insertSnippet(`play se ${item.id}`)} />
+              <AudioAsset key={`se-${item.id}`} label={`SE ${item.id}`} onListen={() => listen(item.src, 'se')} onInsert={() => insertSnippet(`play se ${item.id}`)} />
             ))}
             {project.assets.voice.map((item) => (
-              <AudioAsset key={`voice-${item.id}`} label={`ボイス ${item.id}`} onListen={() => listen(item.src, false)} onInsert={() => insertSnippet(`play voice ${item.id}`)} />
+              <AudioAsset key={`voice-${item.id}`} label={`ボイス ${item.id}`} onListen={() => listen(item.src, 'voice')} onInsert={() => insertSnippet(`play voice ${item.id}`)} />
             ))}
           </ul>
           <div ref={addFormRef}>
@@ -667,6 +678,7 @@ export function EditorView({
               </div>
             ) : null}
           </div>
+          <EditorMonitorBar monitor={monitor} onChange={changeMonitor} />
         </aside>
       </div>
     </div>
@@ -692,6 +704,42 @@ function roleFor(command: Command | undefined): Role {
   if (command.type === 'particle') return 'particle';
   if (command.type === 'dialogue') return 'text';
   return 'fx';
+}
+
+const MONITOR_ROWS: { channel: MonitorChannel; label: string; mute: 'muteBgm' | 'muteSe' | 'muteVoice' }[] = [
+  { channel: 'bgm', label: 'BGM', mute: 'muteBgm' },
+  { channel: 'se', label: 'SE', mute: 'muteSe' },
+  { channel: 'voice', label: 'ボイス', mute: 'muteVoice' },
+];
+
+function EditorMonitorBar({ monitor, onChange }: { monitor: EditorMonitor; onChange: (monitor: EditorMonitor) => void }) {
+  return (
+    <div className="editor-monitor">
+      {MONITOR_ROWS.map((row) => (
+        <div className="monitor-row" key={row.channel}>
+          <span>{row.label}</span>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            aria-label={`${row.label}の音量`}
+            value={monitor[row.channel]}
+            onChange={(event) => onChange({ ...monitor, [row.channel]: Number(event.target.value) })}
+          />
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={monitor[row.mute]}
+              aria-label={`${row.label}をミュート`}
+              onChange={(event) => onChange({ ...monitor, [row.mute]: event.target.checked })}
+            />
+            ミュート
+          </label>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 function AudioAsset({ label, onListen, onInsert }: { label: string; onListen: () => void; onInsert: () => void }) {
